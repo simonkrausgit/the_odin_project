@@ -1,0 +1,42 @@
+.wrapper{
+  margin:0px auto;
+}
+.pixel{
+  width: 30px;
+  height: 30px;
+  margin: 1px;
+  background-color: #000;
+  opacity:.1;
+  display:inline-block;
+  vertical-align: top;
+}
+#input{
+  width:350px;
+  margin-top:30px;
+}
+
+table{
+  width: 100%;
+}
+
+#reset-button{
+  width:100px;
+  margin: 10px auto 0px;
+}
+button{
+  width: 100px;
+  padding:5px 10px;
+  text-align: center;
+  background: #ddd;
+  color: #666;
+  border: 1px solid #ddd;
+}
+button:hover{
+  color: #222;
+  border: 1px solid #ccc;
+}
+#container{
+  padding: 4px;
+  margin: 30px auto 30px;
+  background-color: #ddd;
+}

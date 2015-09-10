@@ -1,0 +1,19 @@
+.wrapper{
+  margin:200px auto 0;
+}
+#timer{
+    text-align: center;
+    width: inherit;
+    font-family: 'Roboto', sans-serif;
+    font-size: 3em;
+    color: #aaa;
+}
+.colon{
+    font-size: 36px !important;
+}
+#milliseconds{
+    font-size: 20px !important;
+}
+body{
+    background-color: #222
+}
