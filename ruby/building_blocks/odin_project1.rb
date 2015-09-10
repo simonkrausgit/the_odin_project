@@ -1,9 +1,8 @@
 # Part of the Odin Project Curriculum
-
+#---------------------
+#Project1
+#---------------------
 class OdinProject1
-  #---------------------
-  #Project1
-  #---------------------
 
   def ceasar_cipher(string, cipher_key)
 
