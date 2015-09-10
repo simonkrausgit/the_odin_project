@@ -1,4 +1,4 @@
-require_relative '../odin_project3'
+require_relative '../substrings'
 
   dictionary = [
     "below","down","go","going","horn","how","howdy","it","i",

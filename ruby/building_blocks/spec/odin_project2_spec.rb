@@ -1,4 +1,4 @@
-require_relative '../odin_project2'
+require_relative '../stock_picker'
 
 
 describe "#stock_picker" do

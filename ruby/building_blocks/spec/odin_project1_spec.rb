@@ -1,4 +1,4 @@
-require_relative '../odin_project1'
+require_relative '../ceasar_cipher'
 
 
 describe "#ceasar_cipher" do
