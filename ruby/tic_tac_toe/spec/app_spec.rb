@@ -78,6 +78,7 @@ describe "Player" do
       expect(@player.mark).to eq("X")
     end
   end
+
   describe "#set_symbol" do
 
     it "should return the symbol that was typed in" do
@@ -103,6 +104,21 @@ describe "Player" do
           "Player0, choose your symbol (it needs to be a single character):\n").to_stdout
       allow(STDIN).to receive(:gets).and_return("2\n","%\n","~\n","!\n", "O\n")
       expect(@player.set_symbol).to eq("O")
+    end
+  end
+  describe "#make_move" do
+    it "should return the typed in numbers as an array" do
+      allow(STDIN).to receive(:gets).and_return("1,3\n", "")
+      expect(@player.make_move).to eq([1,3])
+    end
+    it "should return false when input doesn't conform" do
+      allow(STDIN).to receive(:gets).and_return("a\n", "ao\n", "a,a\n", "1,a\n", "a,1\n", "1.2\n")
+      expect(@player.make_move).to eq(false)
+      expect(@player.make_move).to eq(false)
+      expect(@player.make_move).to eq(false)
+      expect(@player.make_move).to eq(false)
+      expect(@player.make_move).to eq(false)
+      expect(@player.make_move).to eq(false)
     end
   end
 end

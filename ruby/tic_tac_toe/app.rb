@@ -73,14 +73,16 @@ class Game
         first_try = false
       end
       @mark = symbol
-      symbol
     end
 
-    def take_turn()
-      #Ask player to make a legitimate move
-      #Check for win
+    def make_move()
+      puts "\n Player with symbol #{@mark}, make your move (in this format: [x,y] like so: 1,2):"
+      input = $stdin.gets.chomp
+      if input =~ /\d,\d/
+        return input.split(',').map {|i| i.to_i}
+      end
+      false 
     end
-
 
   end
 end
