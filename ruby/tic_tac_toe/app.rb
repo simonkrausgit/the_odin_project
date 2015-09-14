@@ -22,27 +22,8 @@ class Game
   end
   def start_new_game
     populate_board([[nil,nil,nil],[nil,nil,nil],[nil,nil,nil]])
-    @player1.mark = find_symbol(@player1.mark)
-    @player2.mark = find_symbol(@player2.mark)
-  end
-  def find_symbol(player_mark)
-    accepted_symbol = false
-    first_try = true
-    #puts("Player#{player_mark}, choose your symbol (it needs to be a single character):")
-    until (accepted_symbol)
-      system("clear")
-      puts("Sorry, your input is not supported.") unless first_try
-      puts("Player#{player_mark}, choose your symbol (it needs to be a single character):")
-      symbol = $stdin.gets.chomp
-      if symbol =~ /^[a-zA-Z]$/ 
-        accepted_symbol = true
-      end
-      first_try = false
-    end
-    symbol
-  end
-  def cycle_through
-
+    @player1.set_symbol
+    @player2.set_symbol
   end
 
   class Board
@@ -77,9 +58,30 @@ class Game
       @mark = mark
     end
 
-    def take_turn()
-
+    def set_symbol
+      accepted_symbol = false
+      first_try = true
+      #puts("Player#{player_mark}, choose your symbol (it needs to be a single character):")
+      until (accepted_symbol)
+        system("clear")
+        puts("Sorry, your input is not supported.") unless first_try
+        puts("Player#{@mark}, choose your symbol (it needs to be a single character):")
+        symbol = $stdin.gets.chomp
+        if symbol =~ /^[a-zA-Z]$/
+          accepted_symbol = true
+        end
+        first_try = false
+      end
+      @mark = symbol
+      symbol
     end
+
+    def take_turn()
+      #Ask player to make a legitimate move
+      #Check for win
+    end
+
+
   end
 end
 
