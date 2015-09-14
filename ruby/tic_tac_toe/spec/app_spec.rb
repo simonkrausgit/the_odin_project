@@ -23,11 +23,32 @@ describe "Game" do
     end
   end
   describe "#find_symbol" do
+
     it "should return the symbol that was typed in" do
       allow(STDIN).to receive(:gets).and_return("a\n", "D\n")
       expect(@game.find_symbol("1")). to eq("a")
       expect(@game.find_symbol("1")). to eq("D")
     end
+
+    it "should cycle if symbol is longer than 1 letter" do
+      allow(STDIN).to receive(:gets).and_return("aoe\n", "a\n")
+      expect{@game.find_symbol("1")}. to output(
+          "Player1, choose your symbol (it needs to be a single character):\n" +
+          "Sorry, your input is not supported.\n" +
+          "Player1, choose your symbol (it needs to be a single character):\n").to_stdout
+      allow(STDIN).to receive(:gets).and_return("aoe\n","snch2nthaoeu\n", "X\n")
+      expect(@game.find_symbol("1")).to eq("X")
+    end
+    it "should cycle if symbol is not a letter" do
+      allow(STDIN).to receive(:gets).and_return("8\n", "a\n")
+      expect{@game.find_symbol("1")}. to output(
+          "Player1, choose your symbol (it needs to be a single character):\n" +
+          "Sorry, your input is not supported.\n" +
+          "Player1, choose your symbol (it needs to be a single character):\n").to_stdout
+      allow(STDIN).to receive(:gets).and_return("2\n","%\n","~\n","!\n", "O\n")
+      expect(@game.find_symbol("1")).to eq("O")
+    end
+
   end
   describe "#start_new_game" do
     it "should return the correct symbols that were typed in" do

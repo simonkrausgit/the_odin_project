@@ -26,18 +26,20 @@ class Game
     @player2.mark = find_symbol(@player2.mark)
   end
   def find_symbol(player_mark)
-    #accepted_symbol = false
-    #first_try = true
-    puts("Player#{player_mark}, choose your symbol (it needs to be a single character):")
-    $stdin.gets.chomp
-    #until (accepted_symbol)
-    #  system("clear")
-    #  puts("Sorry, your input is not supported.") if first_try
-    #  puts("Player#{player_mark}, choose your symbol (it needs to be a single character):")
-    #  symbol = gets.chomp
-    # =~ /\w/
-    #  first_try = false
-    #end
+    accepted_symbol = false
+    first_try = true
+    #puts("Player#{player_mark}, choose your symbol (it needs to be a single character):")
+    until (accepted_symbol)
+      system("clear")
+      puts("Sorry, your input is not supported.") unless first_try
+      puts("Player#{player_mark}, choose your symbol (it needs to be a single character):")
+      symbol = $stdin.gets.chomp
+      if symbol =~ /^[a-zA-Z]$/ 
+        accepted_symbol = true
+      end
+      first_try = false
+    end
+    symbol
   end
   def cycle_through
 
