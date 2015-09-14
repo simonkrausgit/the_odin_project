@@ -38,18 +38,32 @@ describe "Game" do
       @game.take_turn(Game::Player.new("X"))
       expect{@game.display_board}.to output("\n  -------\n  | | |E|\n  | | | |\n  | |X| |\n  -------\n").to_stdout
     end
+
     it "should not accept wrong inputs until the right input is typed in" do
       allow(STDIN).to receive(:gets).and_return("aue\n","1,3\n")
       @game.take_turn(Game::Player.new("E"))
       expect{@game.display_board}.to output("\n  -------\n  | | |E|\n  | | | |\n  | | | |\n  -------\n").to_stdout
     end
+
     it "should not set correct input in fields that are already populated" do
       allow(STDIN).to receive(:gets).and_return("1,3\n","1,3\n","2,2\n","2,2\n","1,3\n","3,3\n")
       player = Game::Player.new("E")
       @game.take_turn(player)
-      @game.take_turn(player)      
+      @game.take_turn(player)
       @game.take_turn(player)
       expect{@game.display_board}.to output("\n  -------\n  | | |E|\n  | |E| |\n  | | |E|\n  -------\n").to_stdout
+    end
+  end
+  describe "#play_game" do
+    it "should allow player 1 to win" do
+      allow(STDIN).to receive(:gets).and_return("J\n","B\n","1,1\n","2,1\n","1,2\n","3,1\n","1,3\n","a\n")
+      @game.play_game
+      expect{@game.print_winner_symbol}.to output("J\n").to_stdout
+    end
+    it "should allow player 2 to win" do
+      allow(STDIN).to receive(:gets).and_return("J\n","B\n","1,1\n","2,1\n","1,2\n","2,2\n","3,3\n","2,3\n","a\n")
+      @game.play_game
+      expect{@game.print_winner_symbol}.to output("B\n").to_stdout
     end
   end
 
@@ -78,6 +92,45 @@ describe "Board" do
     it "should return the correct string using a filled board" do
       @board.field = ([["X","O",nil],["X",nil,"O"],[nil,"X",nil]])
       expect(@board.return_display_string).to eq("\n  -------\n  |X|O| |\n  |X| |O|\n  | |X| |\n  -------")
+    end
+  end
+
+  describe "#winner?" do
+    it "should return true if there is a win in the first row" do
+      @board.field = ([["X" , "X" , "X"],["O", nil , nil],["X", nil , "O"]])
+      expect(@board.winner?).to eq true
+    end
+    it "should return true if there is a win in the second row" do
+      @board.field = ([["O", nil , nil],["X" , "X" , "X"],["X", nil , "O"]])
+      expect(@board.winner?).to eq true
+    end
+    it "should return true if there is a win in the third row" do
+      @board.field = ([["O", nil , nil],["X", nil , "O"],["X" , "X" , "X"]])
+      expect(@board.winner?).to eq true
+    end
+    it "should not return true if there is no winner at all" do
+      @board.field = ([["X" , nil , "X"],["O", nil , nil],["X", nil , "O"]])
+      expect(@board.winner?).to eq false
+    end
+    it "should return true if there is a winner in the first column" do
+      @board.field = ([["X" , nil , "X"],["X", nil , nil],["X", nil , "O"]])
+      expect(@board.winner?).to eq true
+    end
+    it "should return true if there is a winner in the second column" do
+      @board.field = ([[nil , "X" , "X"],["X", "X" , nil],["O", "X" , "O"]])
+      expect(@board.winner?).to eq true
+    end
+    it "should return true if there is a winner in the third column" do
+      @board.field = ([[nil, nil , "O"],["X", nil , "O"],["X", nil , "O"]])
+      expect(@board.winner?).to eq true
+    end
+    it "should return true if there is a right to left vertical winner" do
+      @board.field = ([["X" , nil , "X"],[nil, "X", nil],[nil, nil , "X"]])
+      expect(@board.winner?).to eq true
+    end
+    it "should return true if there is a left to right vertical winner" do
+      @board.field = ([["X" , nil , "X"],[nil, "X", nil],["X", nil , nil]])
+      expect(@board.winner?).to eq true
     end
   end
 
