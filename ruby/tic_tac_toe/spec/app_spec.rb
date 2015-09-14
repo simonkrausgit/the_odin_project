@@ -31,6 +31,27 @@ describe "Game" do
       expect{@game.display_player_marks}.to output("Player1: a Player2: D\n").to_stdout
     end
   end
+  describe "#take_turn" do
+    it "should set the board at the typed in position with the correct players symbol" do
+      allow(STDIN).to receive(:gets).and_return("1,3\n","3,2\n")
+      @game.take_turn(Game::Player.new("E"))
+      @game.take_turn(Game::Player.new("X"))
+      expect{@game.display_board}.to output("\n  -------\n  | | |E|\n  | | | |\n  | |X| |\n  -------\n").to_stdout
+    end
+    it "should not accept wrong inputs until the right input is typed in" do
+      allow(STDIN).to receive(:gets).and_return("aue\n","1,3\n")
+      @game.take_turn(Game::Player.new("E"))
+      expect{@game.display_board}.to output("\n  -------\n  | | |E|\n  | | | |\n  | | | |\n  -------\n").to_stdout
+    end
+    it "should not set correct input in fields that are already populated" do
+      allow(STDIN).to receive(:gets).and_return("1,3\n","1,3\n","2,2\n","2,2\n","1,3\n","3,3\n")
+      player = Game::Player.new("E")
+      @game.take_turn(player)
+      @game.take_turn(player)      
+      @game.take_turn(player)
+      expect{@game.display_board}.to output("\n  -------\n  | | |E|\n  | |E| |\n  | | |E|\n  -------\n").to_stdout
+    end
+  end
 
 end
 
@@ -90,26 +111,26 @@ describe "Player" do
     it "should cycle if symbol is longer than 1 letter" do
       allow(STDIN).to receive(:gets).and_return("aoe\n", "a\n")
       expect{@player.set_symbol}. to output(
-          "Player0, choose your symbol (it needs to be a single character):\n" +
+          "Player 0, choose your symbol (it needs to be a single character):\n" +
           "Sorry, your input is not supported.\n" +
-          "Player0, choose your symbol (it needs to be a single character):\n").to_stdout
+          "Player 0, choose your symbol (it needs to be a single character):\n").to_stdout
       allow(STDIN).to receive(:gets).and_return("aoe\n","snch2nthaoeu\n", "X\n")
       expect(@player.set_symbol).to eq("X")
     end
     it "should cycle if symbol is not a letter" do
       allow(STDIN).to receive(:gets).and_return("8\n", "a\n")
       expect{@player.set_symbol}. to output(
-          "Player0, choose your symbol (it needs to be a single character):\n" +
+          "Player 0, choose your symbol (it needs to be a single character):\n" +
           "Sorry, your input is not supported.\n" +
-          "Player0, choose your symbol (it needs to be a single character):\n").to_stdout
+          "Player 0, choose your symbol (it needs to be a single character):\n").to_stdout
       allow(STDIN).to receive(:gets).and_return("2\n","%\n","~\n","!\n", "O\n")
       expect(@player.set_symbol).to eq("O")
     end
   end
   describe "#make_move" do
     it "should return the typed in numbers as an array" do
-      allow(STDIN).to receive(:gets).and_return("1,3\n", "")
-      expect(@player.make_move).to eq([1,3])
+      allow(STDIN).to receive(:gets).and_return("1,3\n")
+      expect(@player.make_move).to eq([0,2])
     end
     it "should return false when input doesn't conform" do
       allow(STDIN).to receive(:gets).and_return("a\n", "ao\n", "a,a\n", "1,a\n", "a,1\n", "1.2\n")

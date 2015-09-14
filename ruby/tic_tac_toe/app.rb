@@ -26,6 +26,25 @@ class Game
     @player2.set_symbol
   end
 
+  def take_turn(player)
+    accepted_move = false
+    first_try = true
+    until (accepted_move)
+      system("clear")
+      display_board
+      puts("Sorry, your input is not supported.") unless first_try
+      array = player.make_move
+      unless array == false
+        if @board.is_free?(array)
+          @board.field[array[0]][array[1]] = player.mark
+          accepted_move = true
+        end
+      end
+      first_try = false
+    end
+    array
+  end
+
   class Board
 
     attr_accessor :field
@@ -48,6 +67,11 @@ class Game
       end
       string +="\n  -------"
     end
+
+    def is_free?(array)
+      return true if @field[array[0]][array[1]] == nil
+      false
+    end
   end
 
   class Player
@@ -65,7 +89,7 @@ class Game
       until (accepted_symbol)
         system("clear")
         puts("Sorry, your input is not supported.") unless first_try
-        puts("Player#{@mark}, choose your symbol (it needs to be a single character):")
+        puts("Player #{@mark}, choose your symbol (it needs to be a single character):")
         symbol = $stdin.gets.chomp
         if symbol =~ /^[a-zA-Z]$/
           accepted_symbol = true
@@ -79,9 +103,9 @@ class Game
       puts "\n Player with symbol #{@mark}, make your move (in this format: [x,y] like so: 1,2):"
       input = $stdin.gets.chomp
       if input =~ /\d,\d/
-        return input.split(',').map {|i| i.to_i}
+        return input.split(',').map {|i| i.to_i - 1}
       end
-      false 
+      false
     end
 
   end
