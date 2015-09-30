@@ -1,5 +1,7 @@
 class Game
 
+  require_relative "board.rb"
+
   def game_loop
     num_loops = 0
     until num_loops == 12
@@ -9,5 +11,8 @@ class Game
     num_loops
   end
 
-  require_relative "board.rb"
+  def generate_random_combination
+    [rand(4)+1,rand(4)+1,rand(4)+1,rand(4)+1]
+  end
+
 end
