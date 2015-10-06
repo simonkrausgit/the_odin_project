@@ -22,10 +22,11 @@ describe "Game" do
       expect(@game.generate_random_combination.length).to eq (4)
     end
     it "should return 4 numbers contained in the array" do
-      expect(@game.generate_random_combination[0].class).to eq(Fixnum)
-      expect(@game.generate_random_combination[1].class).to eq(Fixnum)
-      expect(@game.generate_random_combination[2].class).to eq(Fixnum)
-      expect(@game.generate_random_combination[3].class).to eq(Fixnum)
+      combination = @game.generate_random_combination
+      expect(combination[0]).to be_within(1.5).of(2.5)
+      expect(combination[1]).to be_within(1.5).of(2.5)
+      expect(combination[2]).to be_within(1.5).of(2.5)
+      expect(combination[3]).to be_within(1.5).of(2.5)
     end
   end
 
